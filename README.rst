@@ -30,8 +30,6 @@ Installing from PyPI
 .. note:: This library is not available on PyPI yet. Install documentation is included
    as a standard element. Stay tuned for PyPI availability!
 
-.. todo:: Remove the above note if PyPI version is/will be available at time of release.
-
 On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
 PyPI <https://pypi.org/project/circuitpython-displayio-st7565/>`_.
 To install for current user:
@@ -81,8 +79,41 @@ Or the following command to update an existing version:
 Usage Example
 =============
 
-.. todo:: Add a quick, simple example. It and other examples should live in the
-examples folder and be included in docs/examples.rst.
+.. code-block:: python
+
+    import board
+    import busio
+    import displayio
+    import terminalio
+
+    from adafruit_display_text import label
+    import displayio_st7565
+
+    # Compatibility with both CircuitPython 8.x.x and 9.x.x.
+    # Remove after 8.x.x is no longer a supported release.
+    try:
+        from fourwire import FourWire
+    except ImportError:
+        from displayio import FourWire
+
+    displayio.release_displays()
+
+    spi = busio.SPI(board.GP18, board.GP19)
+    display_bus = FourWire(
+        spi, command=board.GP20, chip_select=board.GP17, reset=board.GP21, baudrate=1000000
+    )
+
+    display = displayio_st7565.ST7565(display_bus, width=128, height=64)
+
+    splash = displayio.Group()
+    display.root_group = splash
+
+    text = "Hello World!"
+    text_area = label.Label(terminalio.FONT, text=text, color=0xFFFFFF, x=0, y=8)
+    splash.append(text_area)
+
+    while True:
+        pass
 
 Documentation
 =============
