@@ -97,7 +97,7 @@ class ST7565(BusDisplay):
             )
 
         self._bias = bias
-        self.bus.send(self._bias)
+        self.bus.send(self._bias, bytearray())
 
     @property
     def contrast(self) -> int:
@@ -107,9 +107,9 @@ class ST7565(BusDisplay):
 
     @contrast.setter
     def contrast(self, contrast: int) -> None:
-        if 0 <= contrast <= 0b00111111:
+        if not 0 <= contrast <= 0b00111111:
             raise ValueError("contrast value must be in range 0-63")
 
         self._contrast = contrast
-        self.bus.send(0x81)  # Electronic volume set
-        self.bus.send(self._contrast)
+        self.bus.send(0x81, bytearray())  # Electronic volume set
+        self.bus.send(self._contrast, bytearray())
