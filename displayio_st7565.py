@@ -32,7 +32,7 @@ __repo__ = "https://github.com/mateusznowakdev/CircuitPython_DisplayIO_ST7565.gi
 
 
 _INIT_SEQUENCE = (
-    b"\xA3\x00"  # LCD bias select
+    b"\xA3\x00"  # LCD bias select (default 1/7)
     b"\xA1\x00"  # ADC select
     b"\xC0\x00"  # SHL select
     b"\x40\x00"  # Initial display line
@@ -44,6 +44,9 @@ _INIT_SEQUENCE = (
     b"\xA4\x00"  # Display all points
     b"\x81\x01\x00"  # Set initial contrast
 )
+
+BIAS_7 = 0xA3  # 1/7
+BIAS_9 = 0xA2  # 1/9
 
 
 class ST7565(BusDisplay):
@@ -63,7 +66,20 @@ class ST7565(BusDisplay):
             pixels_in_byte_share_row=False,
         )
 
+        self._bias = 0
         self._contrast = 0
+
+    @property
+    def bias(self) -> int:
+        return self._bias
+
+    @bias.setter
+    def bias(self, bias: int) -> None:
+        if bias not in (BIAS_7, BIAS_9):
+            raise ValueError("bias setting must be either displayio_st7565.BIAS_7 or displayio_st7565.BIAS_9")
+
+        self._bias = bias
+        self.bus.send(self._bias)
 
     @property
     def contrast(self) -> int:
