@@ -1,25 +1,17 @@
 Introduction
 ============
 
-
-
-
-.. image:: https://img.shields.io/discord/327254708534116352.svg
-    :target: https://adafru.it/discord
-    :alt: Discord
-
-
 .. image:: https://github.com/mateusznowakdev/CircuitPython_DisplayIO_ST7565/workflows/Build%20CI/badge.svg
     :target: https://github.com/mateusznowakdev/CircuitPython_DisplayIO_ST7565/actions
     :alt: Build Status
-
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
     :alt: Code Style: Black
 
-CircuitPython displayio library for ST7565 and ST7567 controllers
+CircuitPython displayio library for ST7565 and ST7567 controllers, based on the original framebuf implementation.
 
+As a community effort, this library was tested with only one ST7567 display and may be not fully compatible with other hardware.
 
 Dependencies
 =============
