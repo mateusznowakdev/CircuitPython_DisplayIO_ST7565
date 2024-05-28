@@ -84,8 +84,8 @@ class ST7565(BusDisplay):
         """
         LCD bias value represents voltage applied to the display.
 
-        This value can be changed if the minimal contrast settings result in dark, unreadable
-        image.
+        This value can be changed if the displayed image is dark and unreadable even at the minimal
+        contrast setting.
         """
         return self._bias
 
