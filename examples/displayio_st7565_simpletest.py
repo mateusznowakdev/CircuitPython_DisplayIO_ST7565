@@ -3,13 +3,17 @@
 #
 # SPDX-License-Identifier: Unlicense
 
+"""
+This test will initialize the display and show boxed "Hello world" message.
+The pin configuration is known to work with the Raspberry Pi Pico and SPI display.
+"""
 import board
 import busio
 import displayio
 import terminalio
 
-import displayio_st7565
 from adafruit_display_text import label
+import displayio_st7565
 
 # Compatibility with both CircuitPython 8.x.x and 9.x.x.
 # Remove after 8.x.x is no longer a supported release.
@@ -20,13 +24,9 @@ except ImportError:
 
 displayio.release_displays()
 
-spi = busio.SPI(board.SCK, board.MOSI)
+spi = busio.SPI(board.GP18, board.GP19)
 display_bus = FourWire(
-    spi,
-    command=board.SPI_DC,
-    chip_select=board.SPI_CS,
-    reset=board.SPI_RESET,
-    baudrate=1000000,
+    spi, command=board.GP20, chip_select=board.GP17, reset=board.GP21, baudrate=1000000
 )
 
 WIDTH = 128
