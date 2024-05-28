@@ -7,9 +7,11 @@
 `displayio_st7565`
 ================================================================================
 
-CircuitPython displayio library for ST7565 and ST7567 controllers, based on the original framebuf implementation.
+CircuitPython displayio library for ST7565 and ST7567 controllers, based on the
+original framebuf implementation.
 
-As a community effort, this library was tested with only one ST7567 display and may be not fully compatible with other hardware.
+As a community effort, this library was tested with only one ST7567 display and
+may be not fully compatible with other hardware.
 
 * Author(s): Mateusz Nowak
 
@@ -50,8 +52,11 @@ _INIT_SEQUENCE = (
     b"\x81\x01\x00"  # Set initial contrast
 )
 
-BIAS_7 = 0xA3  # 1/7
-BIAS_9 = 0xA2  # 1/9
+#: Bias value of 1/7
+BIAS_7 = 0xA3
+
+#: Bias value of 1/9
+BIAS_9 = 0xA2
 
 
 class ST7565(BusDisplay):
@@ -76,18 +81,28 @@ class ST7565(BusDisplay):
 
     @property
     def bias(self) -> int:
+        """
+        LCD bias value represents voltage applied to the display.
+
+        This value can be changed if the minimal contrast settings result in dark, unreadable
+        image.
+        """
         return self._bias
 
     @bias.setter
     def bias(self, bias: int) -> None:
         if bias not in (BIAS_7, BIAS_9):
-            raise ValueError("bias setting must be either displayio_st7565.BIAS_7 or displayio_st7565.BIAS_9")
+            raise ValueError(
+                "bias setting must be either displayio_st7565.BIAS_7 or displayio_st7565.BIAS_9"
+            )
 
         self._bias = bias
         self.bus.send(self._bias)
 
     @property
     def contrast(self) -> int:
+        """LCD contrast value, or "electronic volume" according to the datasheet."""
+
         return self._contrast
 
     @contrast.setter
